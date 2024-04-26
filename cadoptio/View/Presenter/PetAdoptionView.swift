@@ -30,7 +30,7 @@ struct PetAdoptionView: View {
                 })
             }
             .listStyle(.plain)
-            .navigationTitle("My Pets")
+            .navigationTitle("My Pets Bro")
             .toolbar {
                 Button(action: {
                     isAddNewPetViewPresented = true
