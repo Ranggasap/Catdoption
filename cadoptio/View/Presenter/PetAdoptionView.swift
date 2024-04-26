@@ -13,27 +13,24 @@ struct PetAdoptionView: View {
     @State private var isFilterViewPresented = false
     @State private var isAddNewPetViewPresented = false
     
+    @Query var pets: [PetModel]
+    @Environment(\.modelContext) var context
+    
     var body: some View {
         NavigationStack {
-            List {
-                PetCardView(pet: PetModel(
-                    name: "Leppy",
-                    breed: "Domestic",
-                    weight: "3 kg",
-                    gender: "Female",
-                    imageName: "Leppy")
-                )
-                PetCardView(pet: PetModel(
-                    name: "Sky",
-                    breed: "Ragdoll",
-                    weight: "5 kg",
-                    gender: "Male",
-                    imageName: "Sky")
-                )
-                //Text("number of pet \(pets.count)")
+            List{
+                ForEach(pets){pet in
+                    PetCardView(pet: pet)
+                }
+                .onDelete(perform: { indexSet in
+                    for index in indexSet{
+                        let willBeDeletedPet = pets[index]
+                        context.delete(willBeDeletedPet)
+                    }
+                })
             }
             .listStyle(.plain)
-            .navigationTitle("My Pet")
+            .navigationTitle("My Pets")
             .toolbar {
                 Button(action: {
                     isAddNewPetViewPresented = true
